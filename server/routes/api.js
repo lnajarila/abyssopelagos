@@ -8,15 +8,8 @@ const { v4 } = require('uuid');
 
 const Image = require('../models/Image.js');
 
-const storage = multer.diskStorage({
-    destination: path.join('images', 'original'),
-    filename: (req, file, cb) => {
-        cb(null, `temp-image${path.extname(file.originalname)}`);
-    }
-});
-
 const upload = multer({
-    storage: storage,
+    storage: multer.memoryStorage(),
     fileFilter: (req, file, cb) => {
         if (file.mimetype.startsWith('image/')) cb(null, true);
         else cb(new Error('Only image files are allowed.'), false);
@@ -40,17 +33,25 @@ router.get('/images', async (req, res) => {
 router.post('/images', upload.single('image'), async (req, res) => {
     const uniqueId = v4();
     let filename, originalPath, thumbnailPath;
+    let sourceType, sourceUrl, fileSize, width, height;
 
     try {
         if (req.file) { // If file is uploaded, multer puts it in req.file
-            const oldPath = path.join('images', 'original', req.file.filename);
-            filename = `${uniqueId}${path.extname(req.file.filename)}`;
+            filename = `${uniqueId}${path.extname(req.file.originalname)}`;
             originalPath = path.join('images', 'original', filename);
             thumbnailPath = path.join('images', 'thumbnail', filename);
-            fs.renameSync(oldPath, originalPath);
+            await fs.writeFile(originalPath, req.file.buffer, (err) => { if (err) throw err; });
+
+            sourceType = 'local';
+            sourceUrl = '';
+            fileSize = req.file.size;
+
+            const metadata = await sharp(req.file.buffer).metadata();
+            width = metadata.width;
+            height = metadata.height;
         } else { // Otherwise, if URL is sent, download the image
             const response = await axios.get(req.body.url, {
-                responseType: 'stream',
+                responseType: 'arraybuffer',
                 timeout: 10000
             });
 
@@ -58,20 +59,31 @@ router.post('/images', upload.single('image'), async (req, res) => {
             filename = `${uniqueId}${fileExt}`;
             originalPath = path.join('images', 'original', filename);
             thumbnailPath = path.join('images', 'thumbnail', filename);
+            await fs.writeFile(originalPath, response.data, (err) => { if (err) throw err; });
 
-            await new Promise((resolve, reject) => {
-                response.data
-                    .pipe(fs.createWriteStream(originalPath))
-                    .on('finish', resolve)
-                    .on('error', reject);
-            });
+            sourceType = 'url';
+            sourceUrl = req.body.url;
+
+            const buffer = Buffer.from(response.data, 'binary');
+            const metadata = await sharp(buffer).metadata();
+            fileSize = buffer.byteLength;
+            width = metadata.width;
+            height = metadata.height;
         }
 
         sharp(originalPath)
             .resize(200, 200, { fit: 'inside' })
             .toFile(thumbnailPath, (err, info) => { if (err) throw err; });
 
-        const newImage = new Image({ filename: filename });
+        const newImage = new Image({
+            filename: filename,
+            sourceType: sourceType,
+            sourceUrl: sourceUrl,
+            fileSize: fileSize,
+            width: width,
+            height: height
+        });
+
         await newImage.save();
         res.status(201).json({ message: 'Your image was successfully uploaded!' });
     } catch (err) {
