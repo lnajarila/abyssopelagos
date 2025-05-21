@@ -4,8 +4,7 @@ const mongoose = require('mongoose');
 const PORT = process.env.PORT;
 
 const imageSchema = new mongoose.Schema({
-    filename: { type: String, required: true },
-    artist: { type:String, required: false }
+    filename: { type: String, required: true }
 }, { timestamps: true });
 
 imageSchema.virtual('originalPath').get(function() {
