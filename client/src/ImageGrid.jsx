@@ -25,7 +25,7 @@ function ImageGrid() {
     }
 
     return (
-        <div class="image-grid">
+        <div className="image-grid">
             {images.map((image) => (
                 <div key={image._id} className="image-item">
                     <img
