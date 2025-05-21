@@ -15,4 +15,6 @@ imageSchema.virtual('thumbnailPath').get(function() {
     return `http://localhost:${PORT}/images/thumbnail/${this.filename}`;
 });
 
-module.exports = mongoose.model('ImageModel', imageSchema);
+imageSchema.set('toJSON', { virtuals: true });
+
+module.exports = mongoose.model('Image', imageSchema);
