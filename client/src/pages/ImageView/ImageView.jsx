@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import axios from 'axios';
+import './ImageView.css';
 
 function ImageView() {
     const { imageId } = useParams();
@@ -47,7 +48,7 @@ function ImageView() {
 
     return (
         <div>
-            <div>
+            <div className="image-container">
                 <img
                     key={image._id}
                     src={`${image.originalPath}`}
