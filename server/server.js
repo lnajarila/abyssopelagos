@@ -1,3 +1,13 @@
+/**
+ * TO DO: Image upload
+ * [ ] Give client option to upload local image file
+ * [ ] Store image file in server directory
+ * [ ] Create thumbnail of image and store in server directory
+ * [ ] Save file metadata in database
+ * [X] Change Image model and path retrieval to be more straightforward (use virtual properties?)
+ * 
+ */
+
 require('dotenv').config();
 
 const express = require('express');
