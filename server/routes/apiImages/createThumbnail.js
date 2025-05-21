@@ -2,7 +2,7 @@ const sharp = require('sharp');
 const fs = require('fs');
 const path = require('path');
 
-const processThumbnail = async (req, res, next) => {
+const createThumbnail = async (req, res, next) => {
     try {
         const thumbnailPath = path.join(__dirname, '..', '..', 'images', 'thumbnail', req.file.filename);
 
@@ -17,4 +17,4 @@ const processThumbnail = async (req, res, next) => {
     }
 };
 
-module.exports = processThumbnail;
+module.exports = createThumbnail;

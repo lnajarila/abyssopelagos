@@ -1,7 +1,3 @@
-/**
- * Load environment variables from .env in development.
- * For security reasons, set environment variables directly in production.
- */
 require('dotenv').config();
 
 const express = require('express');

@@ -23,8 +23,6 @@ function ImageUpload() {
             });
 
             window.location.reload();
-
-            console.log(response.data);
         } catch (err) {
             console.error(err);
         }
