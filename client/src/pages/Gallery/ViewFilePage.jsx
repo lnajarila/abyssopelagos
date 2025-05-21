@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import axios from 'axios';
-import './ImageView.css';
+import './ViewFilePage.css';
 
-function ImageView() {
+function ViewFilePage() {
     const { imageId } = useParams();
     const [image, setImage] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -80,4 +80,4 @@ function ImageView() {
     );
 }
 
-export default ImageView;
+export default ViewFilePage;

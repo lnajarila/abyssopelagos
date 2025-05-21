@@ -1,0 +1,28 @@
+.upload-container {
+    display: flex;
+    flex: 1;
+    width: auto;
+    margin: 4rem 10rem;
+}
+
+.upload-form {
+    width: 30%;
+    height: auto;
+    margin: 1rem;
+    padding: 2rem;
+    overflow-y: auto;
+    background-color: aquamarine;
+}
+
+.upload-preview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    height: auto;
+    margin: 1rem;
+    padding: 4rem;
+    overflow: hidden;
+    object-fit: contain;
+    background-color: cadetblue;
+}

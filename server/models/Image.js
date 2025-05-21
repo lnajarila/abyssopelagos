@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const mongoose = require('mongoose');
+const ImageTag = require('./ImageTag.js');
 const PORT = process.env.PORT;
 
 const imageSchema = new mongoose.Schema({
@@ -46,5 +47,20 @@ imageSchema.virtual('uploadDate').get(function() {
 });
 
 imageSchema.set('toJSON', { virtuals: true });
+
+imageSchema.methods = {
+    async assignToTag(tagId) {
+        return await ImageTag.create({
+            image: this._id,
+            tag: tagId
+        });
+    },
+
+    async getTags() {
+        return await ImageTag.find({ image: this._id })
+            .populate('tag')
+            .exec();
+    }
+};
 
 module.exports = mongoose.model('Image', imageSchema);

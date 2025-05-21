@@ -3,7 +3,8 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
-const apiRouter = require('./routes/api.js');
+const imagesRouter = require('./routes/imagesRouter.js');
+const tagsRouter = require('./routes/tagsRouter.js');
 
 const app = express();
 const PORT = process.env.PORT;
@@ -19,7 +20,10 @@ mongoose.connect(process.env.MONGODB_URI)
 
 
 app.use(express.json());
+
 app.use('/images', express.static(path.join(__dirname, 'images')));
-app.use('/api', apiRouter);
+
+app.use('/api/images', imagesRouter);
+app.use('/api/tags', tagsRouter);
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

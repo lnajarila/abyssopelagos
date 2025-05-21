@@ -16,10 +16,10 @@ const upload = multer({
     }
 });
 
-const router = express.Router();
+const imagesRouter = express.Router();
 
 // Get all images
-router.get('/images', async (req, res) => {
+imagesRouter.get('/', async (req, res) => {
     try {
         const images = await Image.find().sort({ createdAt: -1 });
         res.json(images);
@@ -30,7 +30,7 @@ router.get('/images', async (req, res) => {
 });
 
 // Upload new image
-router.post('/images', upload.single('image'), async (req, res) => {
+imagesRouter.post('/', upload.single('image'), async (req, res) => {
     const uniqueId = v4();
     let filename, originalPath, thumbnailPath;
     let sourceType, sourceUrl, fileSize, width, height;
@@ -93,7 +93,7 @@ router.post('/images', upload.single('image'), async (req, res) => {
 });
 
 // Get specific image
-router.get('/images/:imageId', async (req, res) => {
+imagesRouter.get('/:imageId', async (req, res) => {
     try {
         const image = await Image.findById(req.params.imageId);
         res.json(image);
@@ -104,7 +104,7 @@ router.get('/images/:imageId', async (req, res) => {
 });
 
 // Delete image
-router.delete('/images/:imageId', async (req, res) => {
+imagesRouter.delete('/:imageId', async (req, res) => {
     try {
         const image = await Image.findById(req.params.imageId);
         fs.unlinkSync(path.join('images', 'original', image.filename));
@@ -117,4 +117,4 @@ router.delete('/images/:imageId', async (req, res) => {
     }
 });
 
-module.exports = router;
+module.exports = imagesRouter;
