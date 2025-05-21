@@ -54,6 +54,26 @@ function ImageView() {
                     alt={image.filename}
                 />
             </div>
+
+            <div>
+                <label>Source: </label>
+                {image.sourceType === "url" ? (
+                    <span>{image.sourceUrl}</span>    
+                ) : (
+                    <span>Local upload</span>
+                )}
+            </div>
+            
+            <div>
+                <label>Size: </label>
+                <span>{image.width}x{image.height} ({image.formattedFileSize})</span>
+            </div>
+
+            <div>
+                <label>Uploaded on: </label>
+                <span>{image.uploadDate}</span>
+            </div>
+
             <button onClick={() => deleteImage(image._id)}>Delete</button>
         </div>
     );
