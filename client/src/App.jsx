@@ -1,12 +1,22 @@
-import ImageUpload from './ImageUpload.jsx';
-import ImageGrid from './ImageGrid.jsx';
+import { BrowserRouter, Routes, Route } from 'react-router';
+import Navbar from './components/Navbar.jsx';
+import HomePage from './pages/Home/HomePage.jsx';
+import GalleryPage from './pages/Gallery/GalleryPage.jsx';
+import ImageDetail from './pages/ImageDetail/ImageDetail.jsx';
 
 function App() {
     return (
-        <div className="app">
-            <ImageUpload />
-            <ImageGrid />
-        </div>
+        <BrowserRouter>
+            <div className="app">
+                <Navbar />
+
+                <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/gallery" element={<GalleryPage />} />
+                    <Route path="/gallery/:imageId" element={<ImageDetail />} />
+                </Routes>
+            </div>
+        </BrowserRouter>
     );
 }
 

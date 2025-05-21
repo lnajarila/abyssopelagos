@@ -1,0 +1,10 @@
+.navbar {
+    margin-bottom: 1rem;
+    border: 1px solid black;
+    padding: 0.5rem 1rem;
+    background: lightskyblue;
+}
+
+.navbar a {
+    margin-right: 1rem;
+}

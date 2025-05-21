@@ -21,9 +21,9 @@ router.post('/images', uploadRouter, async (req, res) => {
 })
 
 // Get specific image
-router.get('/images/:id', async (req, res) => {
+router.get('/images/:imageId', async (req, res) => {
     try {
-        const image = await Image.find({ _id: req._id });
+        const image = await Image.find({ _id: req.params.imageId });
         res.json(image);
     } catch (err) {
         console.error(err);
