@@ -2,7 +2,8 @@ import { BrowserRouter, Routes, Route } from 'react-router';
 import Navbar from './components/Navbar.jsx';
 import HomePage from './pages/Home/HomePage.jsx';
 import GalleryPage from './pages/Gallery/GalleryPage.jsx';
-import ImageDetail from './pages/ImageDetail/ImageDetail.jsx';
+import ImageView from './pages/ImageView/ImageView.jsx';
+import ImageUpload from './pages/ImageUpload/ImageUpload.jsx';
 
 function App() {
     return (
@@ -13,7 +14,8 @@ function App() {
                 <Routes>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/gallery" element={<GalleryPage />} />
-                    <Route path="/gallery/:imageId" element={<ImageDetail />} />
+                    <Route path="/gallery/:imageId" element={<ImageView />} />
+                    <Route path="/upload" element={<ImageUpload />} />
                 </Routes>
             </div>
         </BrowserRouter>

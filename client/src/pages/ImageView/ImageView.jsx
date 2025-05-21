@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import axios from 'axios';
 
-function ImageDetail() {
+function ImageView() {
     const { imageId } = useParams();
     const [image, setImage] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -27,7 +27,7 @@ function ImageDetail() {
     const deleteImage = async (imageId) => {
         try {
             await axios.delete(`/api/images/${imageId}`);
-            window.location = "http://localhost:3000/gallery";
+            window.location = 'http://localhost:3000/gallery';
         } catch (err) {
             console.error('Error:', err);
         }
@@ -47,18 +47,16 @@ function ImageDetail() {
 
     return (
         <div>
-            <img
-                key={image._id}
-                src={`${image.originalPath}`}
-                alt={image.filename}
-            />
-
-            <br />
-            <span>Artist: {image.artist}</span>
-            <br />
+            <div>
+                <img
+                    key={image._id}
+                    src={`${image.originalPath}`}
+                    alt={image.filename}
+                />
+            </div>
             <button onClick={() => deleteImage(image._id)}>Delete</button>
         </div>
     );
 }
 
-export default ImageDetail;
+export default ImageView;
