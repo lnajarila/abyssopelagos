@@ -3,23 +3,12 @@ const fs = require('fs');
 const path = require('path');
 
 const processThumbnail = async (req, res, next) => {
-    const handleCopyFileError = (err) => {
-        if (err) throw err;
-    };
-
-    const handleToFileError = (err, info) => {
-        if (err) throw err;
-    };
-
     try {
-        // Copy image to images/thumbnail
-        const thumbnailPath = path.join(__dirname, 'images', 'thumbnail', req.file.filename);
-        fs.copyFile(req.file.path, thumbnailPath, handleCopyFileError);
+        const thumbnailPath = path.join(__dirname, '..', '..', 'images', 'thumbnail', req.file.filename);
 
-        // Resize image down to thumbnail size: max 200px width and height
-        sharp(thumbnailPath)
-            .resize(200, 200, { fit: contain })
-            .toFile(thumbnailPath, handleToFileError);
+        sharp(req.file.path)
+            .resize(200, 200, { fit: 'inside' })
+            .toFile(thumbnailPath, (err, info) => { if (err) throw err; });
 
         next();
     } catch (err) {
